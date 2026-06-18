@@ -9,8 +9,10 @@ Thumbs.db
 .idea/
 .vscode/
 
+# Локальные заметки и служебные файлы
+*.local.md
+_notes/
+
 # Playwright (тестовые артефакты)
 *.png
-.playwright-mcp/
-CLAUDE.md
 .playwright-mcp/
