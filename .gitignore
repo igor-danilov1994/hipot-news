@@ -1,0 +1,16 @@
+# Docker тома (генерируются при запуске)
+www/bitrixsetup.php
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# Playwright (тестовые артефакты)
+*.png
+.playwright-mcp/
+CLAUDE.md
+.playwright-mcp/

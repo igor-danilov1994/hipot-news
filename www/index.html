@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лента новостей — Demo (hipot.news)</title>
+    <link rel="stylesheet" href="demo-assets/style.css">
+    <style>
+        body { margin: 0; padding: 20px; background: #f5f5f5; font-family: -apple-system, sans-serif; }
+        .demo-header {
+            max-width: 760px; margin: 0 auto 8px; padding: 0 16px;
+            font-size: 12px; color: #999; border-bottom: 1px dashed #ddd; padding-bottom: 8px;
+        }
+        .demo-header strong { color: #0070c5; }
+        h1.page-title {
+            max-width: 760px; margin: 16px auto 0; padding: 0 16px;
+            font-size: 22px; color: #1a1a1a;
+        }
+        .demo-note {
+            max-width: 760px; margin: 8px auto 0; padding: 0 16px;
+            font-size: 11px; color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-header">
+        <strong>DEMO</strong> — воспроизводит страницу <code>/news/</code> из модуля <strong>hipot.news</strong>.
+        Навигация и рендер карточек идентичны реальному Bitrix-компоненту.
+    </div>
+
+    <h1 class="page-title">Лента новостей</h1>
+    <p class="demo-note">Источник: <a href="https://github.com/igor-danilov1994/hipot-news" target="_blank">github.com/igor-danilov1994/hipot-news</a></p>
+
+    <section class="news-feed"
+             id="news-feed"
+             data-page="1"
+             data-total="4">
+
+        <div class="news-feed__list" id="news-list">
+            <article class="news-card">
+                <time class="news-card__date" datetime="2026-06-01">01.06.2026</time>
+                <h2 class="news-card__title">Запуск нового интернет-проекта</h2>
+                <p class="news-card__preview">Команда hipot-studio успешно запустила масштабный интернет-проект для ведущего ритейлера региона. Проект включает интернет-магазин, мобильное приложение и интеграцию с 1С.</p>
+            </article>
+            <article class="news-card">
+                <time class="news-card__date" datetime="2026-05-25">25.05.2026</time>
+                <h2 class="news-card__title">PHP 8.2 — новые возможности</h2>
+                <p class="news-card__preview">В PHP 8.2 появились readonly-классы, DNF-типы и улучшенная поддержка Fibers. Рассказываем, как применять эти возможности в проектах на 1С-Битрикс без нарушения обратной совместимости.</p>
+            </article>
+        </div>
+
+        <nav class="news-feed__nav" aria-label="Навигация по новостям">
+            <button class="news-feed__btn news-feed__btn--prev"
+                    type="button"
+                    aria-label="Предыдущие новости">&lsaquo;</button>
+            <span class="news-feed__counter" id="news-counter">1 / 4</span>
+            <button class="news-feed__btn news-feed__btn--next"
+                    type="button"
+                    aria-label="Следующие новости">&rsaquo;</button>
+        </nav>
+    </section>
+
+    <script src="demo-assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+version: '3.9'
+
+# Локальный стенд для разработки и тестирования модуля hipot.news.
+# Стек: nginx + PHP 8.2-FPM + MySQL 8.0
+#
+# Запуск: docker compose up -d
+# Веб-рут смонтирован из ../www → любые файлы туда → сразу видно в браузере.
+#
+# ВАЖНО для Apple Silicon (M1/M2/M3):
+#   Все образы — multi-arch (работают на linux/arm64 без эмуляции).
+#   mysql:8.0 на ARM работает корректно.
+
+services:
+
+  # ── nginx ────────────────────────────────────────────────────────────
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/site.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../www:/var/www/html:rw
+    depends_on:
+      - php
+    restart: unless-stopped
+
+  # ── PHP 8.2-FPM ──────────────────────────────────────────────────────
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    volumes:
+      - ../www:/var/www/html:rw
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # Передаём параметры БД в PHP (опционально — Bitrix читает из настроек ядра)
+      DB_HOST:     db
+      DB_NAME:     bitrix
+      DB_USER:     bitrix
+      DB_PASSWORD: bitrix_pass
+    restart: unless-stopped
+
+  # ── MySQL 8.0 ─────────────────────────────────────────────────────────
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"        # открываем для подключения из IDE / MySQL Workbench
+    volumes:
+      - ./mysql/my.cnf:/etc/mysql/conf.d/bitrix.cnf:ro
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pass
+      MYSQL_DATABASE:      bitrix
+      MYSQL_USER:          bitrix
+      MYSQL_PASSWORD:      bitrix_pass
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot_pass"]
+      interval: 10s
+      timeout:  5s
+      retries:  5
+    restart: unless-stopped
+
+volumes:
+  db_data:
